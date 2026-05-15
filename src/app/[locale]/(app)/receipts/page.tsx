@@ -2,6 +2,7 @@ import { Camera, Download, ScanLine } from 'lucide-react';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
 
+import { RealtimeRefresher } from '@/components/RealtimeRefresher';
 import { ReceiptsList } from '@/components/receipt/ReceiptsList';
 import { getRecentReceipts } from '@/db/queries/stats';
 import type { Locale } from '@/types';
@@ -14,6 +15,7 @@ export default async function ReceiptsPage() {
 
   return (
     <div className="space-y-4">
+      <RealtimeRefresher />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
           {locale === 'ko' ? '영수증' : 'All receipts'}

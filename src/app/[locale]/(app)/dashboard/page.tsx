@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 import { BudgetCard } from '@/components/dashboard/BudgetCard';
+import { RealtimeRefresher } from '@/components/RealtimeRefresher';
 import { CategoryDonut } from '@/components/dashboard/CategoryDonut';
 import { PeriodSelector } from '@/components/dashboard/PeriodSelector';
 import { RecentReceiptsList } from '@/components/dashboard/RecentReceiptsList';
@@ -61,6 +62,7 @@ export default async function DashboardPage({
 
   return (
     <div className="space-y-5">
+      <RealtimeRefresher />
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
