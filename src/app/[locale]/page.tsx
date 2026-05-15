@@ -9,14 +9,12 @@ import {
   ScanLine,
   Target,
 } from 'lucide-react';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
-import type { Locale } from '@/types';
 
 export default async function HomePage() {
-  const locale = (await getLocale()) as Locale;
   const t = await getTranslations('landing');
   const tAuth = await getTranslations('auth');
 

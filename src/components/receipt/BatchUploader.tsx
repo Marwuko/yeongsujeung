@@ -174,7 +174,8 @@ export function BatchUploader() {
 
   // Revoke all object URLs on unmount
   useEffect(() => {
-    return () => { urlsRef.current.forEach((u) => URL.revokeObjectURL(u)); };
+    const urls = urlsRef.current;
+    return () => { urls.forEach((u) => URL.revokeObjectURL(u)); };
   }, []);
 
   const addFiles = useCallback((files: FileList | File[]) => {
