@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp *)",
+      "Read(//c/Users/USER/**)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('mcpServers', d.get\\('projects', {}\\)\\), indent=2\\)\\)\")",
+      "Bash(dir \"c:\\\\dev\\\\yeongsujeung\")",
+      "Bash(mkdir -p \"c:/dev/yeongsujeung/src/app/api/receipts/[id]\")",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm dev *)"
+    ],
+    "additionalDirectories": [
+      "c:\\dev\\yeongsujeung\\src\\app\\api\\receipts"
+    ]
+  }
+}

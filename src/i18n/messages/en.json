@@ -1,0 +1,107 @@
+{
+  "app": {
+    "name": "Yeongsujeung",
+    "tagline": "AI expense tracker for business"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "receipts": "Receipts",
+    "upload": "Upload",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "loginCta": "Continue with email",
+    "loginPrompt": "Don't have an account?",
+    "signupPrompt": "Already have an account?"
+  },
+  "dashboard": {
+    "title": "This month",
+    "totalSpent": "Total spent",
+    "totalVat": "Total VAT",
+    "receipts": "Receipts",
+    "avgPerReceipt": "Avg per receipt",
+    "dailyAvg": "Daily average",
+    "add": "Add",
+    "recentReceipts": "Recent receipts",
+    "viewAll": "View all →",
+    "topVendors": "Top vendors",
+    "visits": "visits",
+    "topCategory": "Top category",
+    "receiptCount": "Receipts logged",
+    "addReceipt": "Add receipt",
+    "noData": "No receipts yet",
+    "noDataSub": "Scan your first receipt and spending insights will appear here.",
+    "addFirst": "Add your first receipt",
+    "setBudget": "Set a monthly budget goal",
+    "monthlyBudget": "Monthly budget",
+    "budget": "Budget",
+    "left": "left",
+    "over": "over",
+    "noSpendingYet": "No spending yet this period",
+    "byCategory": "By category",
+    "unknownVendor": "Unknown vendor",
+    "noVendorsYet": "No vendor data yet"
+  },
+  "upload": {
+    "title": "Add a receipt",
+    "subtitle": "Take a photo or upload an image",
+    "dropzone": "Click or drag a receipt photo here",
+    "supportedFormats": "JPG, PNG, WebP, or HEIC, up to 10MB",
+    "takePhoto": "Take a photo",
+    "previewConfirm": "Extract with AI",
+    "previewChange": "Choose different",
+    "uploading": "Uploading…",
+    "extracting": "Reading your receipt…",
+    "extractingDetail": "Claude AI is extracting vendor, items, and totals",
+    "success": "Got it! Saved to your receipts.",
+    "tryAgain": "Try again",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorTooLarge": "Image is too large. Max 10MB.",
+    "errorWrongType": "Only JPG, PNG, WebP, or HEIC are supported."
+  },
+  "receipt": {
+    "vendor": "Vendor",
+    "date": "Date",
+    "total": "Total",
+    "tax": "Tax",
+    "category": "Category",
+    "items": "Items",
+    "noItems": "No items extracted",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "extracted": "Done",
+      "failed": "Failed"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageNote": "Changes the interface language immediately.",
+    "currency": "Default currency",
+    "currencyNote": "Used as the default for new receipts. Change per receipt in the edit form.",
+    "budget": "Monthly budget",
+    "budgetNote": "Set a spending target — visible on your dashboard.",
+    "budgetPlaceholder": "e.g. 500000",
+    "budgetSave": "Save",
+    "budgetClear": "Clear",
+    "export": "Export data",
+    "exportCsv": "Download all receipts as CSV",
+    "exportNote": "Includes all extracted receipts with line items.",
+    "account": "Account",
+    "saved": "Saved"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading…",
+    "empty": "Nothing here yet"
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "app": {
+    "name": "Yeongsujeung",
+    "tagline": "KI-Belegerfassung für Unternehmen"
+  },
+  "nav": {
+    "dashboard": "Übersicht",
+    "receipts": "Belege",
+    "upload": "Hochladen",
+    "settings": "Einstellungen",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "loginCta": "Mit E-Mail fortfahren",
+    "loginPrompt": "Noch kein Konto?",
+    "signupPrompt": "Bereits ein Konto?"
+  },
+  "dashboard": {
+    "title": "Diesen Monat",
+    "totalSpent": "Gesamtausgaben",
+    "totalVat": "Gesamt MwSt.",
+    "receipts": "Belege",
+    "avgPerReceipt": "Durchschnitt",
+    "dailyAvg": "Tagesdurchschnitt",
+    "add": "Hinzufügen",
+    "recentReceipts": "Letzte Belege",
+    "viewAll": "Alle anzeigen →",
+    "topVendors": "Häufigste Händler",
+    "visits": "Besuche",
+    "topCategory": "Hauptkategorie",
+    "receiptCount": "Belege erfasst",
+    "addReceipt": "Beleg hinzufügen",
+    "noData": "Noch keine Belege",
+    "noDataSub": "Erfassen Sie Ihren ersten Beleg — Ausgabenanalysen erscheinen hier.",
+    "addFirst": "Ersten Beleg hinzufügen",
+    "setBudget": "Monatliches Budget festlegen",
+    "monthlyBudget": "Monatsbudget",
+    "budget": "Budget",
+    "left": "übrig",
+    "over": "überschritten",
+    "noSpendingYet": "Noch keine Ausgaben",
+    "byCategory": "Nach Kategorie",
+    "unknownVendor": "Unbekannter Händler",
+    "noVendorsYet": "Noch keine Händlerdaten"
+  },
+  "upload": {
+    "title": "Beleg hinzufügen",
+    "subtitle": "Foto aufnehmen oder Bild hochladen",
+    "dropzone": "Klicken oder Belegfoto hierher ziehen",
+    "supportedFormats": "JPG, PNG, WebP oder HEIC, bis 10 MB",
+    "takePhoto": "Foto aufnehmen",
+    "previewConfirm": "Mit KI extrahieren",
+    "previewChange": "Anderes Bild wählen",
+    "uploading": "Hochladen…",
+    "extracting": "Beleg wird gelesen…",
+    "extractingDetail": "Claude KI extrahiert Händler, Artikel und Summen",
+    "success": "Fertig! Beleg wurde gespeichert.",
+    "tryAgain": "Erneut versuchen",
+    "errorGeneric": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+    "errorTooLarge": "Bild ist zu groß. Max 10 MB.",
+    "errorWrongType": "Nur JPG, PNG, WebP oder HEIC werden unterstützt."
+  },
+  "receipt": {
+    "vendor": "Händler",
+    "date": "Datum",
+    "total": "Gesamt",
+    "tax": "MwSt.",
+    "category": "Kategorie",
+    "items": "Artikel",
+    "noItems": "Keine Artikel extrahiert",
+    "status": {
+      "pending": "Ausstehend",
+      "processing": "Verarbeitung",
+      "extracted": "Fertig",
+      "failed": "Fehlgeschlagen"
+    }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "languageNote": "Ändert die Sprache der Benutzeroberfläche sofort.",
+    "currency": "Standardwährung",
+    "currencyNote": "Wird als Standard für neue Belege verwendet. Pro Beleg änderbar.",
+    "budget": "Monatsbudget",
+    "budgetNote": "Legen Sie ein Ausgabenziel fest — sichtbar auf Ihrem Dashboard.",
+    "budgetPlaceholder": "z. B. 500000",
+    "budgetSave": "Speichern",
+    "budgetClear": "Entfernen",
+    "export": "Daten exportieren",
+    "exportCsv": "Alle Belege als CSV herunterladen",
+    "exportNote": "Enthält alle extrahierten Belege mit Positionen.",
+    "account": "Konto",
+    "saved": "Gespeichert"
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "loading": "Laden…",
+    "empty": "Noch nichts hier"
+  }
+}

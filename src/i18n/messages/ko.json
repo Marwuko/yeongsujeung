@@ -1,0 +1,107 @@
+{
+  "app": {
+    "name": "영수증",
+    "tagline": "비즈니스를 위한 AI 영수증 관리"
+  },
+  "nav": {
+    "dashboard": "대시보드",
+    "receipts": "영수증",
+    "upload": "업로드",
+    "settings": "설정",
+    "logout": "로그아웃"
+  },
+  "auth": {
+    "login": "로그인",
+    "signup": "회원가입",
+    "email": "이메일",
+    "password": "비밀번호",
+    "loginCta": "이메일로 계속하기",
+    "loginPrompt": "계정이 없으신가요?",
+    "signupPrompt": "이미 계정이 있으신가요?"
+  },
+  "dashboard": {
+    "title": "이번 달",
+    "totalSpent": "총 지출",
+    "totalVat": "부가세 합계",
+    "receipts": "영수증 수",
+    "avgPerReceipt": "건당 평균",
+    "dailyAvg": "일 평균 지출",
+    "add": "추가",
+    "recentReceipts": "최근 영수증",
+    "viewAll": "전체 보기 →",
+    "topVendors": "자주 간 곳",
+    "visits": "회",
+    "topCategory": "가장 많이 쓴 카테고리",
+    "receiptCount": "기록한 영수증",
+    "addReceipt": "영수증 추가",
+    "noData": "아직 영수증이 없어요",
+    "noDataSub": "첫 영수증을 찍으면 지출 인사이트가 여기 나타납니다.",
+    "addFirst": "첫 영수증 추가하기",
+    "setBudget": "이번 달 예산 설정하기",
+    "monthlyBudget": "이번 달 예산",
+    "budget": "예산",
+    "left": "남음",
+    "over": "초과",
+    "noSpendingYet": "이번 기간 지출 없음",
+    "byCategory": "카테고리별",
+    "unknownVendor": "알 수 없는 상호",
+    "noVendorsYet": "아직 상호 데이터 없음"
+  },
+  "upload": {
+    "title": "영수증 추가",
+    "subtitle": "사진을 찍거나 이미지를 업로드하세요",
+    "dropzone": "영수증 사진을 여기에 끌어다 놓거나 클릭하세요",
+    "supportedFormats": "JPG, PNG, WebP 또는 HEIC, 최대 10MB",
+    "takePhoto": "사진 찍기",
+    "previewConfirm": "AI로 추출하기",
+    "previewChange": "다른 사진 선택",
+    "uploading": "업로드 중…",
+    "extracting": "영수증을 읽고 있어요…",
+    "extractingDetail": "Claude AI가 상호, 품목, 합계를 추출하고 있어요",
+    "success": "완료! 영수증에 저장되었습니다.",
+    "tryAgain": "다시 시도",
+    "errorGeneric": "문제가 발생했습니다. 다시 시도해주세요.",
+    "errorTooLarge": "이미지가 너무 큽니다. 최대 10MB.",
+    "errorWrongType": "JPG, PNG, WebP, HEIC만 지원됩니다."
+  },
+  "receipt": {
+    "vendor": "상호",
+    "date": "날짜",
+    "total": "합계",
+    "tax": "부가세",
+    "category": "카테고리",
+    "items": "품목",
+    "noItems": "추출된 품목이 없습니다",
+    "status": {
+      "pending": "대기 중",
+      "processing": "처리 중",
+      "extracted": "완료",
+      "failed": "실패"
+    }
+  },
+  "settings": {
+    "title": "설정",
+    "language": "언어",
+    "languageNote": "인터페이스 언어를 즉시 변경합니다.",
+    "currency": "기본 통화",
+    "currencyNote": "새 영수증의 기본 통화로 사용됩니다. 영수증별로 변경 가능합니다.",
+    "budget": "월 예산",
+    "budgetNote": "지출 목표를 설정하세요 — 대시보드에 표시됩니다.",
+    "budgetPlaceholder": "예: 500000",
+    "budgetSave": "저장",
+    "budgetClear": "삭제",
+    "export": "데이터 내보내기",
+    "exportCsv": "전체 영수증을 CSV로 다운로드",
+    "exportNote": "품목이 포함된 모든 추출된 영수증이 포함됩니다.",
+    "account": "계정",
+    "saved": "저장됨"
+  },
+  "common": {
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "수정",
+    "loading": "불러오는 중…",
+    "empty": "아직 아무것도 없어요"
+  }
+}
