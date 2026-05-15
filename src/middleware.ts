@@ -10,12 +10,6 @@ const intlMiddleware = createIntlMiddleware({
   localePrefix: 'as-needed',
 });
 
-const PUBLIC_PATHS = ['/login', '/signup'];
-
-function isPublicPath(pathname: string) {
-  return PUBLIC_PATHS.some((p) => pathname === p || pathname.endsWith(p));
-}
-
 function isAppPath(pathname: string) {
   return (
     pathname.includes('/dashboard') ||

@@ -4,7 +4,7 @@ import { Search, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import type { RecentReceiptRow } from '@/db/queries/stats';
-import { CATEGORY_CONFIG, CategoryIcon, getCategoryConfig, getCategoryLabel } from '@/lib/utils/categories';
+import { CATEGORY_CONFIG, CategoryIcon, getCategoryLabel } from '@/lib/utils/categories';
 import { formatCurrency, formatDate } from '@/lib/utils/format';
 import type { Locale } from '@/types';
 
