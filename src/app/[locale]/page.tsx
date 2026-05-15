@@ -2,260 +2,364 @@ import {
   BarChart3,
   Camera,
   ChevronRight,
+  CreditCard,
   Globe,
-  PenLine,
+  Layers,
   Receipt,
+  ScanLine,
   Target,
-  TrendingDown,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
-export default function HomePage() {
-  const t = useTranslations();
-  const isKo = t('app.name') === '영수증';
+import { LocaleSwitcher } from '@/components/LocaleSwitcher';
+import type { Locale } from '@/types';
+
+export default async function HomePage() {
+  const locale = (await getLocale()) as Locale;
+  const t = await getTranslations('landing');
+  const tAuth = await getTranslations('auth');
 
   return (
     <div className="min-h-screen bg-white text-ink-900">
-      {/* ── Nav ─────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 border-b border-ink-100 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
+      {/* ── Nav ──────────────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-30 border-b border-ink-100 bg-white/90 backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <Receipt className="h-5 w-5 text-brand-500" strokeWidth={2} />
-            <span className="text-sm font-semibold tracking-tight">
-              {isKo ? '영수증' : 'Yeongsujeung'}
-            </span>
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-brand-500">
+              <Receipt className="h-4 w-4 text-white" strokeWidth={2.5} />
+            </div>
+            <span className="text-sm font-bold tracking-tight">Yeongsujeung</span>
           </div>
-          <nav className="flex items-center gap-2">
+          <nav className="flex items-center gap-1 sm:gap-2">
+            <LocaleSwitcher />
             <Link
               href="/login"
-              className="rounded-lg px-3.5 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-ink-100"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-ink-100"
             >
-              {t('auth.login')}
+              {tAuth('login')}
             </Link>
             <Link
               href="/signup"
               className="rounded-lg bg-ink-900 px-3.5 py-2 text-sm font-medium text-white transition-colors hover:bg-ink-700"
             >
-              {isKo ? '시작하기' : 'Get started'}
+              {t('cta')}
             </Link>
           </nav>
         </div>
       </header>
 
-      {/* ── Hero ────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-5xl px-6 pb-20 pt-24">
-        <div className="max-w-2xl">
-          <p className="mb-4 text-sm font-medium text-brand-600">
-            {isKo ? '한국 생활을 위한 AI 가계부' : 'AI-powered expense tracking for Korea'}
-          </p>
-          <h1 className="text-5xl font-bold leading-[1.1] tracking-tight text-ink-900 md:text-6xl">
-            {isKo ? (
-              <>
-                모든 지출,
-                <br />
-                <span className="text-ink-400">한 곳에서.</span>
-              </>
-            ) : (
-              <>
-                Every receipt.
-                <br />
-                <span className="text-ink-400">Understood.</span>
-              </>
-            )}
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section className="overflow-hidden bg-white">
+        <div className="mx-auto max-w-6xl px-4 pb-8 pt-16 text-center sm:px-6 sm:pt-24">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-700">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
+            {t('badge')}
+          </div>
+
+          {/* Headline */}
+          <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-ink-900 sm:text-5xl md:text-6xl lg:text-7xl">
+            {t('headline1')}
+            <br />
+            <span className="text-ink-400">{t('headline2')}</span>
           </h1>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-500">
-            {isKo
-              ? '한국어 영수증을 사진으로 찍으면 AI가 즉시 분석합니다. 외국인·유학생도 쉽게 지출을 관리하세요.'
-              : 'Photograph any Korean or English receipt and get structured data instantly. Built for expats and students who need to navigate unfamiliar receipts.'}
+
+          {/* Sub-heading */}
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-500 sm:text-lg">
+            {t('sub')}
           </p>
-          <div className="mt-8 flex items-center gap-4">
+
+          {/* CTAs */}
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/20 transition-all hover:bg-brand-600 hover:shadow-brand-500/30 active:scale-[0.98] sm:w-auto"
             >
-              {isKo ? '무료로 시작하기' : 'Start for free'}
+              {t('cta')}
               <ChevronRight className="h-4 w-4" />
             </Link>
             <Link
               href="/login"
-              className="text-sm font-medium text-ink-500 transition-colors hover:text-ink-900"
+              className="inline-flex w-full items-center justify-center gap-1 text-sm font-medium text-ink-500 transition-colors hover:text-ink-900 sm:w-auto"
             >
-              {isKo ? '로그인 →' : 'Log in →'}
+              {t('login')} →
             </Link>
           </div>
         </div>
 
-        {/* ── Dashboard preview ────────────────────────────── */}
-        <div className="mt-16 overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-lg shadow-ink-900/5">
-          {/* Fake browser chrome */}
-          <div className="flex items-center gap-1.5 border-b border-ink-100 bg-ink-50 px-4 py-3">
-            <span className="h-2.5 w-2.5 rounded-full bg-ink-200" />
-            <span className="h-2.5 w-2.5 rounded-full bg-ink-200" />
-            <span className="h-2.5 w-2.5 rounded-full bg-ink-200" />
-            <span className="ml-3 rounded-md bg-ink-100 px-10 py-1 text-xs text-ink-400">
-              {isKo ? '대시보드' : 'dashboard'}
-            </span>
-          </div>
-
-          {/* Dashboard content mockup */}
-          <div className="p-6">
-            <div className="mb-5 flex items-end justify-between">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-ink-400">
-                  {isKo ? '이번 달' : 'This month'}
-                </p>
-                <p className="mt-1 text-3xl font-bold tabular-nums tracking-tight">
-                  {isKo ? '₩ 1,240,000' : '₩ 1,240,000'}
-                </p>
-              </div>
-              <div className="flex items-center gap-1 rounded-lg bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-600">
-                <TrendingDown className="h-3 w-3" />
-                {isKo ? '전월 대비 -8%' : '-8% vs last month'}
+        {/* ── Dashboard preview ──────────────────────────────────────── */}
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+          <div className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-2xl shadow-ink-900/10 ring-1 ring-ink-900/5 md:rounded-3xl">
+            {/* Browser chrome */}
+            <div className="flex items-center gap-2 border-b border-ink-100 bg-ink-50 px-4 py-3 sm:px-5">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+              <div className="ml-2 flex min-w-0 max-w-[200px] flex-1 items-center rounded-md border border-ink-200 bg-white px-3 py-1">
+                <span className="truncate text-xs text-ink-400">
+                  yeongsujeung.vercel.app/dashboard
+                </span>
               </div>
             </div>
 
-            {/* Simulated chart bars */}
-            <div className="mb-5 flex items-end gap-1.5 overflow-hidden rounded-xl bg-ink-50 px-4 pb-3 pt-4">
-              {[30, 55, 40, 70, 45, 80, 60, 35, 65, 50, 90, 45, 72, 38].map((h, i) => (
-                <div
-                  key={i}
-                  className="flex-1 rounded-sm bg-brand-500 opacity-70"
-                  style={{ height: `${h * 0.6}px` }}
-                />
-              ))}
-            </div>
+            {/* Mock dashboard */}
+            <div className="bg-ink-50 p-4 sm:p-6">
+              {/* Stat cards */}
+              <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {[
+                  { label: 'Total Spent', value: '$2,480', trend: '↑ 8%', trendColor: 'text-red-500' },
+                  { label: 'Receipts', value: '23', trend: 'this month', trendColor: 'text-ink-400' },
+                  { label: 'Daily Avg', value: '$83', trend: 'last 30 days', trendColor: 'text-ink-400' },
+                  { label: 'Budget', value: '78%', trend: '$420 remaining', trendColor: 'text-green-600' },
+                ].map((card) => (
+                  <div key={card.label} className="rounded-xl border border-ink-100 bg-white p-3 sm:p-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-400 sm:text-xs">
+                      {card.label}
+                    </p>
+                    <p className="mt-1 text-xl font-bold tabular-nums text-ink-900 sm:text-2xl">
+                      {card.value}
+                    </p>
+                    <p className={`mt-0.5 text-[10px] sm:text-xs ${card.trendColor}`}>
+                      {card.trend}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
-            {/* Category chips */}
-            <div className="flex flex-wrap gap-2">
-              {[
-                { label: isKo ? '음식점 42%' : 'Restaurant 42%', w: 42 },
-                { label: isKo ? '카페 21%' : 'Cafe 21%', w: 21 },
-                { label: isKo ? '교통 18%' : 'Transport 18%', w: 18 },
-                { label: isKo ? '기타 19%' : 'Other 19%', w: 19 },
-              ].map((c) => (
-                <div key={c.label} className="flex items-center gap-2 rounded-lg border border-ink-100 bg-white px-3 py-2">
-                  <div
-                    className="h-2 rounded-full bg-brand-500 opacity-70"
-                    style={{ width: `${c.w * 0.6}px` }}
-                  />
-                  <span className="text-xs font-medium text-ink-600">{c.label}</span>
+              {/* Charts + receipts */}
+              <div className="grid gap-3 md:grid-cols-5">
+                {/* Bar chart */}
+                <div className="rounded-xl border border-ink-100 bg-white p-4 md:col-span-3">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-wide text-ink-400">
+                    30-day trend
+                  </p>
+                  <div className="flex h-20 items-end gap-1 sm:h-24">
+                    {[32, 58, 44, 72, 48, 85, 64, 38, 70, 52, 91, 47, 75, 40, 62, 68, 50, 79, 58, 92, 45, 70, 38, 83, 57, 76, 63, 48, 71, 55].map(
+                      (h, i) => (
+                        <div
+                          key={i}
+                          className="min-w-0 flex-1 rounded-sm bg-brand-400"
+                          style={{ height: `${h}%`, opacity: 0.7 + (i / 30) * 0.3 }}
+                        />
+                      ),
+                    )}
+                  </div>
+                  <div className="mt-2 flex justify-between text-[10px] text-ink-400">
+                    <span>Nov 15</span>
+                    <span>Today</span>
+                  </div>
                 </div>
-              ))}
+
+                {/* Recent receipts */}
+                <div className="rounded-xl border border-ink-100 bg-white p-4 md:col-span-2">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-wide text-ink-400">
+                    Recent
+                  </p>
+                  <ul className="space-y-2.5">
+                    {[
+                      { name: 'Starbucks', cat: 'Café', amount: '$12.50', color: 'bg-amber-400' },
+                      { name: 'Amazon', cat: 'Shopping', amount: '$89.00', color: 'bg-blue-400' },
+                      { name: 'Uber', cat: 'Transport', amount: '$18.50', color: 'bg-green-400' },
+                      { name: 'Whole Foods', cat: 'Grocery', amount: '$64.20', color: 'bg-purple-400' },
+                    ].map((r) => (
+                      <li key={r.name} className="flex items-center gap-2.5">
+                        <span className={`h-2 w-2 shrink-0 rounded-full ${r.color}`} />
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-xs font-medium text-ink-800">{r.name}</p>
+                          <p className="text-[10px] text-ink-400">{r.cat}</p>
+                        </div>
+                        <span className="shrink-0 text-xs font-semibold tabular-nums text-ink-900">
+                          {r.amount}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Category bars */}
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {[
+                  { label: 'Restaurant', pct: 42, color: 'bg-brand-400' },
+                  { label: 'Shopping', pct: 28, color: 'bg-blue-400' },
+                  { label: 'Transport', pct: 18, color: 'bg-green-400' },
+                  { label: 'Other', pct: 12, color: 'bg-purple-400' },
+                ].map((c) => (
+                  <div key={c.label} className="rounded-lg border border-ink-100 bg-white px-3 py-2">
+                    <div className="mb-1.5 flex items-center justify-between">
+                      <span className="text-[10px] font-medium text-ink-600">{c.label}</span>
+                      <span className="text-[10px] font-bold text-ink-800">{c.pct}%</span>
+                    </div>
+                    <div className="h-1 w-full overflow-hidden rounded-full bg-ink-100">
+                      <div
+                        className={`h-full rounded-full ${c.color}`}
+                        style={{ width: `${c.pct}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Features ────────────────────────────────────────── */}
-      <section className="border-t border-ink-100 bg-ink-50">
-        <div className="mx-auto max-w-5xl px-6 py-20">
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-
-            <Feature
-              icon={<Camera className="h-5 w-5" />}
-              title={isKo ? '찍으면 끝' : 'Snap to extract'}
-              body={isKo
-                ? 'Claude AI가 한국어·영어 영수증을 인식해 상호, 금액, 부가세, 품목을 자동 추출합니다. 수동 입력 없음.'
-                : 'Claude AI reads Korean and English receipts — vendor, total, tax, line items — without you typing a single character.'}
-            />
-
-            <Feature
-              icon={<BarChart3 className="h-5 w-5" />}
-              title={isKo ? '지출 패턴 파악' : 'Understand your spending'}
-              body={isKo
-                ? '카테고리별 도넛 차트와 날짜별 추이 그래프로 돈이 어디에 가는지 한눈에 확인하세요.'
-                : 'Category donut charts and a 30-day trend line show exactly where your money is going, updated the moment you scan a receipt.'}
-            />
-
-            <Feature
-              icon={<Target className="h-5 w-5" />}
-              title={isKo ? '예산 목표 설정' : 'Budget before you overspend'}
-              body={isKo
-                ? '월 예산을 정해두면 실시간 진행 바가 남은 금액을 보여줍니다. 초과하기 전에 미리 알 수 있어요.'
-                : 'Set a monthly limit and a live progress bar tracks it against every new receipt — you see the ceiling before you hit it.'}
-            />
-
-            <Feature
-              icon={<PenLine className="h-5 w-5" />}
-              title={isKo ? 'AI가 틀렸다면 수정' : 'Fix what AI gets wrong'}
-              body={isKo
-                ? 'AI 추출 결과가 틀렸어도 괜찮습니다. 상호, 금액, 카테고리를 두 번의 탭으로 수정할 수 있어요.'
-                : "AI isn't perfect. If it misreads a vendor or category, editing takes two taps — no re-scanning needed."}
-            />
-
-            <Feature
-              icon={<Globe className="h-5 w-5" />}
-              title={isKo ? '한국어·영어 완전 지원' : 'Korean and English, natively'}
-              body={isKo
-                ? '앱 전체가 한국어·영어 두 언어로 제공됩니다. 영수증도 두 언어 모두 지원해요.'
-                : 'Every screen, every label, every error message — available in Korean and English. Switch any time.'}
-            />
-
-            <Feature
-              icon={<Receipt className="h-5 w-5" />}
-              title={isKo ? '전월 대비 비교' : 'Month-over-month tracking'}
-              body={isKo
-                ? '이번 달 지출이 지난달보다 얼마나 늘었거나 줄었는지 퍼센트로 바로 확인합니다.'
-                : 'Each stat card shows a % change badge so you know instantly if you\'re spending more or less than last month.'}
-            />
-
+      {/* ── Stats bar ────────────────────────────────────────────────── */}
+      <section className="border-y border-ink-100 bg-ink-50">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            {(
+              [
+                [t('statsVal1'), t('statsLabel1')],
+                [t('statsVal2'), t('statsLabel2')],
+                [t('statsVal3'), t('statsLabel3')],
+                [t('statsVal4'), t('statsLabel4')],
+              ] as [string, string][]
+            ).map(([val, label]) => (
+              <div key={label} className="text-center">
+                <p className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">{val}</p>
+                <p className="mt-1 text-sm text-ink-500">{label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── Final CTA ───────────────────────────────────────── */}
-      <section className="border-t border-ink-100">
-        <div className="mx-auto max-w-5xl px-6 py-24 text-center">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            {isKo ? '지금 바로 시작하세요' : 'Start tracking today'}
+      {/* ── Features ─────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+            {t('featuresTitle')}
           </h2>
-          <p className="mx-auto mt-4 max-w-md text-ink-500">
-            {isKo
-              ? '영수증 한 장으로 한국 생활 가계부를 시작할 수 있습니다.'
-              : 'One photo is all it takes to bring order to your Korea spending.'}
-          </p>
-          <Link
-            href="/signup"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-600"
-          >
-            {isKo ? '무료로 시작하기' : 'Get started free'}
-            <ChevronRight className="h-4 w-4" />
-          </Link>
+          <p className="mt-3 text-ink-500">{t('featuresSub')}</p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <FeatureCard
+            icon={<ScanLine className="h-5 w-5" />}
+            iconClass="bg-brand-50 text-brand-600"
+            title={t('f1Title')}
+            body={t('f1Body')}
+          />
+          <FeatureCard
+            icon={<CreditCard className="h-5 w-5" />}
+            iconClass="bg-green-50 text-green-600"
+            title={t('f2Title')}
+            body={t('f2Body')}
+          />
+          <FeatureCard
+            icon={<Globe className="h-5 w-5" />}
+            iconClass="bg-blue-50 text-blue-600"
+            title={t('f3Title')}
+            body={t('f3Body')}
+          />
+          <FeatureCard
+            icon={<Target className="h-5 w-5" />}
+            iconClass="bg-purple-50 text-purple-600"
+            title={t('f4Title')}
+            body={t('f4Body')}
+          />
+          <FeatureCard
+            icon={<BarChart3 className="h-5 w-5" />}
+            iconClass="bg-amber-50 text-amber-600"
+            title={t('f5Title')}
+            body={t('f5Body')}
+          />
+          <FeatureCard
+            icon={<Layers className="h-5 w-5" />}
+            iconClass="bg-rose-50 text-rose-600"
+            title={t('f6Title')}
+            body={t('f6Body')}
+          />
         </div>
       </section>
 
-      <footer className="border-t border-ink-100 px-6 py-8">
-        <div className="mx-auto flex max-w-5xl items-center justify-between text-xs text-ink-400">
-          <div className="flex items-center gap-2">
-            <Receipt className="h-3.5 w-3.5" />
-            <span>Yeongsujeung</span>
+      {/* ── How it works ─────────────────────────────────────────────── */}
+      <section className="border-t border-ink-100 bg-ink-50">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+            {t('howTitle')}
+          </h2>
+          <div className="grid gap-8 sm:grid-cols-3">
+            {(
+              [
+                { num: '01', icon: <Camera className="h-5 w-5" />, key: 'how1' },
+                { num: '02', icon: <ScanLine className="h-5 w-5" />, key: 'how2' },
+                { num: '03', icon: <BarChart3 className="h-5 w-5" />, key: 'how3' },
+              ] as { num: string; icon: React.ReactNode; key: 'how1' | 'how2' | 'how3' }[]
+            ).map((step) => (
+              <div key={step.num} className="relative">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-white shadow-md shadow-brand-500/20">
+                    {step.icon}
+                  </div>
+                  <span className="text-5xl font-black text-ink-100">{step.num}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-ink-900">
+                  {t(`${step.key}Title`)}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-500">{t(`${step.key}Body`)}</p>
+              </div>
+            ))}
           </div>
-          <span>© {new Date().getFullYear()}</span>
+        </div>
+      </section>
+
+      {/* ── Final CTA ────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-28">
+        <h2 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl md:text-5xl">
+          {t('ctaTitle')}
+        </h2>
+        <p className="mx-auto mt-4 max-w-md text-ink-500">{t('ctaSub')}</p>
+        <Link
+          href="/signup"
+          className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-500 px-7 py-4 font-semibold text-white shadow-lg shadow-brand-500/20 transition-all hover:bg-brand-600 hover:shadow-brand-500/30 active:scale-[0.98]"
+        >
+          {t('ctaBtn')}
+          <ChevronRight className="h-4 w-4" />
+        </Link>
+      </section>
+
+      {/* ── Footer ───────────────────────────────────────────────────── */}
+      <footer className="border-t border-ink-100">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-500">
+              <Receipt className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
+            </div>
+            <span className="text-sm font-semibold text-ink-900">Yeongsujeung</span>
+          </div>
+          <p className="text-xs text-ink-400">
+            © {new Date().getFullYear()} Yeongsujeung. All rights reserved.
+          </p>
+          <LocaleSwitcher />
         </div>
       </footer>
     </div>
   );
 }
 
-function Feature({
+function FeatureCard({
   icon,
+  iconClass,
   title,
   body,
 }: {
   icon: React.ReactNode;
+  iconClass: string;
   title: string;
   body: string;
 }) {
   return (
-    <div className="flex gap-4">
-      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-ink-200 bg-white text-ink-700">
+    <div className="group rounded-2xl border border-ink-100 bg-white p-6 shadow-sm transition-all duration-200 hover:border-ink-200 hover:shadow-md">
+      <div
+        className={`mb-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${iconClass}`}
+      >
         {icon}
       </div>
-      <div>
-        <h3 className="font-semibold text-ink-900">{title}</h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink-500">{body}</p>
-      </div>
+      <h3 className="font-semibold text-ink-900">{title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-ink-500">{body}</p>
     </div>
   );
 }
