@@ -6,6 +6,7 @@ import {
   getAnthropicClient,
 } from '@/lib/ai/client';
 import { EXTRACTION_SYSTEM_PROMPT, EXTRACTION_USER_PROMPT } from '@/lib/ai/prompts';
+import { normalizeMerchant } from '@/lib/utils/merchants';
 import { ExtractedReceiptSchema, type ExtractedReceipt } from '@/lib/validators/receipt';
 
 export interface ExtractionResult {
@@ -27,12 +28,8 @@ export class ExtractionError extends Error {
 
 /**
  * Extract structured data from a receipt image using Claude vision.
- *
- * @param imageBase64 - Base64-encoded image (without the data: prefix)
- * @param mediaType - 'image/jpeg' | 'image/png' | 'image/webp'
- *
- * @throws {ExtractionError} If the model returns invalid JSON or the
- *   response doesn't match the expected schema.
+ * Applies merchant normalization as a post-processing step to correct
+ * OCR artefacts and improve category accuracy.
  */
 export async function extractReceipt(
   imageBase64: string,
@@ -101,6 +98,20 @@ export async function extractReceipt(
       validation.error,
     );
   }
+
+  // ── Merchant post-processing ────────────────────────────────────────
+  // Match the AI's vendor string against our known merchant database.
+  // This corrects OCR noise ("GS 25" → "GS25") and improves category
+  // accuracy for recognized chains (overrides AI's "other" classification).
+  const merchant = normalizeMerchant(validation.data.vendor);
+  if (merchant) {
+    validation.data.vendor = merchant.canonical;
+    if (validation.data.category_slug === 'other') {
+      validation.data.category_slug =
+        merchant.categorySlug as ExtractedReceipt['category_slug'];
+    }
+  }
+  // ───────────────────────────────────────────────────────────────────
 
   return {
     data: validation.data,

@@ -18,6 +18,8 @@ import {
   getTopVendors,
 } from '@/db/queries/stats';
 import { getPeriodDates, getPrevPeriodDates, isValidPeriod, PERIOD_LABELS } from '@/lib/utils/period';
+import { generateInsights } from '@/lib/utils/insights';
+import { InsightsCard } from '@/components/dashboard/InsightsCard';
 import type { Locale } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -46,6 +48,7 @@ export default async function DashboardPage({
 
   const hasData = stats.receiptCount > 0;
   const currency = stats.dominantCurrency;
+  const insights = generateInsights(stats, breakdown, vendors, locale);
 
   const delta = (curr: number, prev: number) =>
     prev > 0 ? ((curr - prev) / prev) * 100 : null;
@@ -121,6 +124,9 @@ export default async function DashboardPage({
 
           {/* Budget */}
           <BudgetCard spent={stats.totalSpent} currency={currency} locale={locale} />
+
+          {/* AI Insights */}
+          <InsightsCard insights={insights} locale={locale} />
 
           {/* Charts */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
