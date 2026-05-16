@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
+import { compressImage } from '@/lib/utils/compress-image';
 import { cn } from '@/lib/utils/cn';
 
 type Status = 'idle' | 'preview' | 'extracting' | 'success' | 'error';
@@ -33,8 +34,9 @@ export function ReceiptUploader() {
   const extract = useCallback(
     async (file: File) => {
       setStatus('extracting');
+      const compressed = await compressImage(file);
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', compressed);
       try {
         const res = await fetch('/api/receipts/upload', { method: 'POST', body: formData });
         if (!res.ok) {

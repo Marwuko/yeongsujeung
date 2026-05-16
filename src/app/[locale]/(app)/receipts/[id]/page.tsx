@@ -1,15 +1,23 @@
-import { ArrowLeft, ImageOff } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Clock, ImageOff } from 'lucide-react';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { RetryExtractionButton } from '@/components/receipt/RetryExtractionButton';
 import { EditReceiptActions } from '@/components/receipt/EditReceiptForm';
 import { getReceiptById } from '@/db/queries/stats';
 import { CategoryIcon } from '@/lib/utils/categories';
+import { getCategoryLabel } from '@/lib/utils/categories';
 import { formatCurrency, formatDate } from '@/lib/utils/format';
 import type { Locale } from '@/types';
 
 export const dynamic = 'force-dynamic';
+
+function tr(locale: Locale, en: string, ko: string, de: string) {
+  if (locale === 'ko') return ko;
+  if (locale === 'de') return de;
+  return en;
+}
 
 export default async function ReceiptDetailPage({
   params,
@@ -22,129 +30,183 @@ export default async function ReceiptDetailPage({
 
   if (!receipt) notFound();
 
-  const categoryName = receipt.category
-    ? locale === 'ko'
-      ? receipt.category.nameKo
-      : receipt.category.nameEn
-    : '—';
+  const categoryName = getCategoryLabel(
+    receipt.category
+      ? { slug: receipt.category.slug, nameEn: receipt.category.nameEn, nameKo: receipt.category.nameKo }
+      : null,
+    locale,
+  );
+
+  const subtotal =
+    receipt.totalAmount != null && receipt.taxAmount != null
+      ? receipt.totalAmount - receipt.taxAmount
+      : null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
+      {/* Back link */}
       <Link
         href="/receipts"
-        className="inline-flex items-center gap-1 text-sm text-ink-500 hover:text-ink-700"
+        className="inline-flex items-center gap-1.5 text-sm text-ink-500 transition-colors hover:text-ink-800"
       >
         <ArrowLeft className="h-4 w-4" />
-        All receipts
+        {tr(locale, 'All receipts', '전체 영수증', 'Alle Belege')}
       </Link>
 
+      {/* Status banners */}
       {receipt.status === 'failed' && (
-        <div className="rounded-2xl bg-red-50 p-4 text-sm text-red-800">
-          <strong className="block">Extraction failed</strong>
-          <span className="mt-1 block text-red-700">
-            {receipt.errorMessage ?? 'Unknown error.'}
-          </span>
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-4">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-red-800">
+                {tr(locale, 'Extraction failed', '추출 실패', 'Extraktion fehlgeschlagen')}
+              </p>
+              {receipt.errorMessage && (
+                <p className="mt-0.5 text-xs text-red-700">{receipt.errorMessage}</p>
+              )}
+              <div className="mt-3">
+                <RetryExtractionButton receiptId={receipt.id} locale={locale} />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
       {receipt.status === 'processing' && (
-        <div className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-800">
-          Still processing this receipt — try refreshing in a moment.
+        <div className="flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <Clock className="h-4 w-4 shrink-0 animate-pulse" />
+          {tr(
+            locale,
+            'Still processing — this usually takes a few seconds.',
+            '처리 중입니다 — 잠시만 기다려 주세요.',
+            'Wird noch verarbeitet — das dauert meist nur wenige Sekunden.',
+          )}
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Image */}
-        <div className="overflow-hidden rounded-2xl border border-ink-100 bg-ink-50">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        {/* Receipt image */}
+        <div className="overflow-hidden rounded-2xl border border-ink-100 bg-ink-50 shadow-sm">
           {receipt.imageSignedUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={receipt.imageSignedUrl}
-              alt={receipt.vendor ?? 'Receipt'}
+              alt={receipt.vendor ?? tr(locale, 'Receipt', '영수증', 'Beleg')}
               className="h-auto w-full object-contain"
             />
           ) : (
-            <div className="flex aspect-[3/4] items-center justify-center text-ink-400">
-              <ImageOff className="h-10 w-10" />
+            <div className="flex aspect-[3/4] items-center justify-center text-ink-300">
+              <ImageOff className="h-12 w-12" />
             </div>
           )}
         </div>
 
-        {/* Details */}
+        {/* Details panel */}
         <div className="space-y-4">
+          {/* Main card */}
           <div className="rounded-2xl border border-ink-100 bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-start justify-between gap-4">
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wide text-ink-500">
-                  Vendor
-                </div>
-                <h1 className="mt-1 text-2xl font-bold tracking-tight">
+            {/* Vendor + category */}
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">
+                  {tr(locale, 'Vendor', '상호', 'Händler')}
+                </p>
+                <h1 className="mt-1 truncate text-2xl font-bold tracking-tight text-ink-900">
                   {receipt.vendor ?? '—'}
                 </h1>
-                <div className="mt-1 text-sm text-ink-500">
+                <p className="mt-1 text-sm text-ink-500">
                   {formatDate(receipt.purchasedAt, locale)}
-                </div>
+                </p>
               </div>
 
               {receipt.category && (
-                <div className="flex shrink-0 items-center gap-2">
+                <div className="flex shrink-0 flex-col items-end gap-1.5">
                   <CategoryIcon slug={receipt.category.slug} size={14} />
-                  <span className="text-sm font-medium text-ink-700">{categoryName}</span>
+                  <span className="text-xs font-medium text-ink-600">{categoryName}</span>
                 </div>
               )}
             </div>
 
+            {/* Amounts */}
             <dl className="space-y-2 border-t border-ink-100 pt-4 text-sm">
-              <div className="flex justify-between">
-                <dt className="text-ink-500">Subtotal</dt>
-                <dd className="font-medium tabular-nums">
-                  {formatCurrency(
-                    receipt.totalAmount != null && receipt.taxAmount != null
-                      ? receipt.totalAmount - receipt.taxAmount
-                      : null,
-                    receipt.currency,
-                    locale,
-                  )}
-                </dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="text-ink-500">Tax</dt>
-                <dd className="tabular-nums">
-                  {formatCurrency(receipt.taxAmount, receipt.currency, locale)}
-                </dd>
-              </div>
-              <div className="flex justify-between border-t border-ink-100 pt-2 text-base">
-                <dt className="font-semibold">Total</dt>
-                <dd className="font-bold tabular-nums">
+              {subtotal != null && (
+                <div className="flex justify-between">
+                  <dt className="text-ink-500">{tr(locale, 'Subtotal', '공급가액', 'Netto')}</dt>
+                  <dd className="tabular-nums text-ink-700">
+                    {formatCurrency(subtotal, receipt.currency, locale)}
+                  </dd>
+                </div>
+              )}
+              {receipt.taxAmount != null && (
+                <div className="flex justify-between">
+                  <dt className="text-ink-500">{tr(locale, 'Tax', '부가세', 'MwSt.')}</dt>
+                  <dd className="tabular-nums text-ink-700">
+                    {formatCurrency(receipt.taxAmount, receipt.currency, locale)}
+                  </dd>
+                </div>
+              )}
+              <div className="flex justify-between border-t border-ink-100 pt-2">
+                <dt className="font-semibold text-ink-900">{tr(locale, 'Total', '합계', 'Gesamt')}</dt>
+                <dd className="text-base font-bold tabular-nums text-ink-900">
                   {formatCurrency(receipt.totalAmount, receipt.currency, locale)}
                 </dd>
               </div>
             </dl>
+
+            {/* User notes (read-only) */}
+            {receipt.userNotes && (
+              <div className="mt-4 rounded-xl bg-ink-50 p-3 text-sm text-ink-600">
+                <span className="font-medium text-ink-700">
+                  {tr(locale, 'Note: ', '메모: ', 'Notiz: ')}
+                </span>
+                {receipt.userNotes}
+              </div>
+            )}
           </div>
 
+          {/* Line items */}
           {receipt.items.length > 0 && (
-            <div className="rounded-2xl border border-ink-100 bg-white shadow-sm">
-              <h2 className="border-b border-ink-100 px-5 py-4 text-sm font-semibold text-ink-700">
-                Items ({receipt.items.length})
-              </h2>
-              <ul className="divide-y divide-ink-100">
+            <div className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm">
+              <div className="border-b border-ink-100 px-5 py-3.5">
+                <h2 className="text-sm font-semibold text-ink-700">
+                  {tr(locale, 'Items', '품목', 'Artikel')}
+                  <span className="ml-2 rounded-full bg-ink-100 px-1.5 py-0.5 text-xs font-normal text-ink-500">
+                    {receipt.items.length}
+                  </span>
+                </h2>
+              </div>
+              <ul className="divide-y divide-ink-50">
                 {receipt.items.map((item) => (
-                  <li key={item.id} className="flex items-start justify-between gap-3 px-5 py-3">
+                  <li
+                    key={item.id}
+                    className="flex items-start justify-between gap-3 px-5 py-3"
+                  >
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-medium">{item.name}</div>
+                      <p className="truncate text-sm font-medium text-ink-800">{item.name}</p>
                       {item.quantity > 1 && (
-                        <div className="text-xs text-ink-500">× {item.quantity}</div>
+                        <p className="text-xs text-ink-400">
+                          {item.quantity}
+                          {item.unitPrice != null
+                            ? ` × ${formatCurrency(item.unitPrice, receipt.currency, locale)}`
+                            : ''}
+                        </p>
                       )}
                     </div>
-                    <div className="shrink-0 text-sm font-medium tabular-nums">
-                      {formatCurrency(item.totalPrice ?? item.unitPrice, receipt.currency, locale)}
-                    </div>
+                    <span className="shrink-0 text-sm font-semibold tabular-nums text-ink-900">
+                      {formatCurrency(
+                        item.totalPrice ?? item.unitPrice,
+                        receipt.currency,
+                        locale,
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
 
+          {/* Edit / delete */}
           <EditReceiptActions
             receiptId={receipt.id}
             locale={locale}

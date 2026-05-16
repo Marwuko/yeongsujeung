@@ -13,6 +13,7 @@ import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { compressImage } from '@/lib/utils/compress-image';
 import { formatCurrency } from '@/lib/utils/format';
 import type { Locale } from '@/types';
 
@@ -215,8 +216,9 @@ export function BatchUploader() {
       prev.map((i) => (i.id === item.id ? { ...i, status: 'processing' } : i)),
     );
 
+    const compressed = await compressImage(item.file);
     const formData = new FormData();
-    formData.append('file', item.file);
+    formData.append('file', compressed);
 
     try {
       const res = await fetch('/api/receipts/upload', { method: 'POST', body: formData });
