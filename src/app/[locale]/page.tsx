@@ -3,11 +3,16 @@ import {
   Camera,
   ChevronRight,
   CreditCard,
+  EyeOff,
+  FlaskConical,
   Globe,
   Layers,
+  Lock,
   Receipt,
   ScanLine,
+  Shield,
   Target,
+  Trash2,
 } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
@@ -78,12 +83,14 @@ export default async function HomePage() {
               <ChevronRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/login"
-              className="inline-flex w-full items-center justify-center gap-1 text-sm font-medium text-ink-500 transition-colors hover:text-ink-900 sm:w-auto"
+              href="/demo"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-ink-200 bg-white px-5 py-3.5 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 sm:w-auto"
             >
-              {t('login')} →
+              <FlaskConical className="h-4 w-4 text-ink-400" />
+              {t('demoBtn')}
             </Link>
           </div>
+          <p className="mt-3 text-xs text-ink-400">{t('demoSub')}</p>
         </div>
 
         {/* ── Dashboard preview ──────────────────────────────────────── */}
@@ -99,6 +106,9 @@ export default async function HomePage() {
                   yeongsujeung.vercel.app/dashboard
                 </span>
               </div>
+              <span className="ml-auto shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                Demo data
+              </span>
             </div>
 
             {/* Mock dashboard */}
@@ -301,6 +311,39 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Trust & privacy ──────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+        <div className="mb-10 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+            {t('trustTitle')}
+          </h2>
+          <p className="mt-3 text-ink-500">{t('trustSub')}</p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {(
+            [
+              { icon: <Shield className="h-5 w-5" />, iconClass: 'bg-green-50 text-green-600', key: 'trust1' },
+              { icon: <EyeOff className="h-5 w-5" />, iconClass: 'bg-blue-50 text-blue-600', key: 'trust2' },
+              { icon: <Trash2 className="h-5 w-5" />, iconClass: 'bg-rose-50 text-rose-600', key: 'trust3' },
+              { icon: <Lock className="h-5 w-5" />, iconClass: 'bg-purple-50 text-purple-600', key: 'trust4' },
+            ] as { icon: React.ReactNode; iconClass: string; key: 'trust1' | 'trust2' | 'trust3' | 'trust4' }[]
+          ).map((item) => (
+            <div
+              key={item.key}
+              className="rounded-2xl border border-ink-100 bg-white p-5 shadow-sm"
+            >
+              <div
+                className={`mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.iconClass}`}
+              >
+                {item.icon}
+              </div>
+              <h3 className="text-sm font-semibold text-ink-900">{t(`${item.key}Title`)}</h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-ink-500">{t(`${item.key}Body`)}</p>
+            </div>
+          ))}
         </div>
       </section>
 

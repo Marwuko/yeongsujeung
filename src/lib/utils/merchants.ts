@@ -69,9 +69,9 @@ const MERCHANT_DB: MerchantEntry[] = [
   { canonical: 'dm',              categorySlug: 'health', patterns: [/\bdm[\s-]drogerie/i, /\bdm\s+markt/i] },
 
   // ── Shopping & delivery ────────────────────────────────────────────
-  { canonical: 'Daiso',           categorySlug: 'other', patterns: [/daiso/i, /다이소/i] },
-  { canonical: 'Coupang',         categorySlug: 'other', patterns: [/coupang/i, /쿠팡(?!이츠)/i] },
-  { canonical: 'Amazon',          categorySlug: 'other', patterns: [/\bamazon\b/i] },
+  { canonical: 'Daiso',           categorySlug: 'shopping', patterns: [/daiso/i, /다이소/i] },
+  { canonical: 'Coupang',         categorySlug: 'shopping', patterns: [/coupang/i, /쿠팡(?!이츠)/i] },
+  { canonical: 'Amazon',          categorySlug: 'shopping', patterns: [/\bamazon\b/i] },
 
   // ── German grocery ────────────────────────────────────────────────
   { canonical: 'Rewe',            categorySlug: 'grocery', patterns: [/\brewe\b/i] },

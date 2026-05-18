@@ -1,4 +1,4 @@
-import { AlertCircle, ArrowLeft, Clock, ImageOff } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Clock, ImageOff, Sparkles } from 'lucide-react';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -9,6 +9,7 @@ import { getReceiptById } from '@/db/queries/stats';
 import { CategoryIcon } from '@/lib/utils/categories';
 import { getCategoryLabel } from '@/lib/utils/categories';
 import { formatCurrency, formatDate } from '@/lib/utils/format';
+import { generateReceiptInsight } from '@/lib/utils/receipt-insight';
 import type { Locale } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -41,6 +42,19 @@ export default async function ReceiptDetailPage({
     receipt.totalAmount != null && receipt.taxAmount != null
       ? receipt.totalAmount - receipt.taxAmount
       : null;
+
+  const insight = generateReceiptInsight(
+    {
+      vendor: receipt.vendor,
+      totalAmount: receipt.totalAmount,
+      currency: receipt.currency,
+      category: receipt.category
+        ? { slug: receipt.category.slug, nameEn: receipt.category.nameEn, nameKo: receipt.category.nameKo }
+        : null,
+      items: receipt.items,
+    },
+    locale,
+  );
 
   return (
     <div className="space-y-5">
@@ -164,6 +178,21 @@ export default async function ReceiptDetailPage({
               </div>
             )}
           </div>
+
+          {/* AI insight */}
+          {insight && receipt.status === 'extracted' && (
+            <div className="rounded-2xl border border-brand-100 bg-brand-50 p-4">
+              <div className="flex items-start gap-3">
+                <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-brand-600">
+                    {tr(locale, 'AI Insight', 'AI 인사이트', 'KI-Einblick')}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-brand-800">{insight}</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Line items */}
           {receipt.items.length > 0 && (

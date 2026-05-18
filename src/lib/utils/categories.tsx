@@ -4,6 +4,7 @@ import {
   Coffee,
   Heart,
   type LucideIcon,
+  ShoppingBag,
   ShoppingCart,
   Smartphone,
   Store,
@@ -31,6 +32,7 @@ export const CATEGORY_CONFIG: Record<string, CategoryConfig> = {
   subscription: { Icon: Smartphone,   color: '#7c3aed', bg: '#f5f3ff', labelEn: 'Subscription',  labelKo: '구독',   labelDe: 'Abonnement' },
   school:       { Icon: BookOpen,     color: '#0891b2', bg: '#ecfeff', labelEn: 'Education',     labelKo: '학용품', labelDe: 'Bildung' },
   health:       { Icon: Heart,        color: '#db2777', bg: '#fdf2f8', labelEn: 'Health',        labelKo: '건강',   labelDe: 'Gesundheit' },
+  shopping:     { Icon: ShoppingBag,  color: '#0891b2', bg: '#ecfeff', labelEn: 'Shopping',      labelKo: '쇼핑',   labelDe: 'Einkaufen' },
   other:        { Icon: Tag,          color: '#6b7280', bg: '#f9fafb', labelEn: 'Other',         labelKo: '기타',   labelDe: 'Sonstiges' },
 };
 
